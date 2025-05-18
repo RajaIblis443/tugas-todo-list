@@ -17,11 +17,21 @@ class TodoDetailScreen extends ConsumerWidget {
     final todoNotifier = ref.read(todoAsyncProvider.notifier);
 
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text('Detail Tugas'),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        centerTitle: true,
+        title: Text(
+          'Detail Tugas',
+          style: TextStyle(
+            color: theme.colorScheme.primary,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.edit),
+            icon: const Icon(Icons.edit_outlined),
             onPressed: () {
               showModalBottomSheet(
                 isScrollControlled: true,
@@ -38,7 +48,7 @@ class TodoDetailScreen extends ConsumerWidget {
             },
           ),
           IconButton(
-            icon: const Icon(Icons.delete),
+            icon: const Icon(Icons.delete_outline),
             onPressed: () {
               showDialog(
                 context: context,
@@ -69,108 +79,136 @@ class TodoDetailScreen extends ConsumerWidget {
         ],
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Card(
-              elevation: 2,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
-                side:
-                    todo.priority == true
-                        ? BorderSide(color: Colors.red.shade200, width: 1.5)
-                        : BorderSide.none,
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
+            // Status bar
+            Row(
+              children: [
+                if (todo.priority == true)
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 6,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.red.withValues(alpha: 50),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
                       children: [
-                        Expanded(
-                          child: Text(
-                            todo.title ?? 'Tanpa Judul',
-                            style: theme.textTheme.headlineSmall?.copyWith(
-                              fontWeight: FontWeight.bold,
-                              decoration:
-                                  (todo.isFinished ?? false)
-                                      ? TextDecoration.lineThrough
-                                      : TextDecoration.none,
-                            ),
-                          ),
+                        Icon(
+                          Icons.flag_rounded,
+                          color: Colors.red.shade500,
+                          size: 16,
                         ),
-                        Checkbox(
-                          value: todo.isFinished ?? false,
-                          onChanged: (value) {
-                            todoNotifier.cheackTodo(
-                              id: todo.id!,
-                              title: todo.title,
-                              description: todo.description,
-                              dueDate: todo.dueDate,
-                              priority: todo.priority,
-                              isFinished: !(todo.isFinished ?? false),
-                            );
-                            context.pop();
-                          },
+                        const SizedBox(width: 4),
+                        Text(
+                          'Prioritas',
+                          style: TextStyle(
+                            color: Colors.red.shade500,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 13,
+                          ),
                         ),
                       ],
                     ),
-                    const Divider(),
-                    const SizedBox(height: 8),
-                    if (todo.dueDate != null) ...[
-                      Row(
-                        children: [
-                          Icon(Icons.calendar_today, color: Colors.grey[600]),
-                          const SizedBox(width: 8),
-                          Text(
-                            'Tenggat: ${DateFormat('EEEE, d MMMM y HH:mm', 'id_ID').format(todo.dueDate!)}',
-                            style: theme.textTheme.bodyLarge,
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 16),
-                    ],
-                    if (todo.priority == true) ...[
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 12,
-                          vertical: 6,
-                        ),
-                        decoration: BoxDecoration(
-                          color: Colors.red.shade50,
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(
-                              Icons.priority_high,
-                              color: Colors.red.shade700,
-                            ),
-                            const SizedBox(width: 4),
-                            Text(
-                              'Prioritas Tinggi',
-                              style: TextStyle(color: Colors.red.shade700),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                    ],
-                    Text(
-                      'Deskripsi',
-                      style: theme.textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
+                  ),
+                const Spacer(),
+                Text(
+                  todo.isFinished ?? false ? 'Selesai' : 'Belum Selesai',
+                  style: TextStyle(
+                    color:
+                        (todo.isFinished ?? false)
+                            ? Colors.green.shade600
+                            : Colors.orange.shade600,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 14,
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Switch(
+                  value: todo.isFinished ?? false,
+                  activeColor: Colors.green.shade400,
+                  onChanged: (value) {
+                    todoNotifier.cheackTodo(
+                      id: todo.id!,
+                      title: todo.title,
+                      description: todo.description,
+                      dueDate: todo.dueDate,
+                      priority: todo.priority,
+                      isFinished: !(todo.isFinished ?? false),
+                    );
+                  },
+                ),
+              ],
+            ),
+
+            // Title section
+            const SizedBox(height: 20),
+            Text(
+              todo.title ?? 'Tanpa Judul',
+              style: theme.textTheme.headlineMedium?.copyWith(
+                fontWeight: FontWeight.bold,
+                decoration:
+                    (todo.isFinished ?? false)
+                        ? TextDecoration.lineThrough
+                        : TextDecoration.none,
+                color:
+                    (todo.isFinished ?? false)
+                        ? Colors.grey.shade400
+                        : Colors.black87,
+              ),
+            ),
+
+            // Due date section
+            if (todo.dueDate != null) ...[
+              const SizedBox(height: 20),
+              Row(
+                children: [
+                  Icon(
+                    Icons.schedule_rounded,
+                    color: theme.colorScheme.primary.withValues(alpha: 50),
+                    size: 20,
+                  ),
+                  const SizedBox(width: 8),
+                  Text(
+                    DateFormat(
+                      'EEEE, d MMMM y • HH:mm',
+                      'id_ID',
+                    ).format(todo.dueDate!),
+                    style: theme.textTheme.titleMedium?.copyWith(
+                      color: theme.colorScheme.primary.withValues(alpha: 50),
                     ),
-                    const SizedBox(height: 8),
-                    Text(
-                      todo.description ?? 'Tidak ada deskripsi',
-                      style: theme.textTheme.bodyLarge,
-                    ),
-                  ],
+                  ),
+                ],
+              ),
+            ],
+
+            // Description section
+            const SizedBox(height: 30),
+            Text(
+              'Deskripsi',
+              style: theme.textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.bold,
+                color: Colors.black54,
+              ),
+            ),
+            const SizedBox(height: 12),
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                color: Colors.grey.shade50,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Text(
+                todo.description ?? 'Tidak ada deskripsi',
+                style: theme.textTheme.bodyLarge?.copyWith(
+                  height: 1.5,
+                  color: Colors.black87,
                 ),
               ),
             ),

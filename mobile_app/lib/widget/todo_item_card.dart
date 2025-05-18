@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -67,7 +69,7 @@ class TodoItemCard extends ConsumerWidget {
                 context: context,
                 backgroundColor: Colors.transparent,
                 builder:
-                    (_) => Padding(
+                    (context) => Padding(
                       padding: EdgeInsets.only(
                         bottom: MediaQuery.of(context).viewInsets.bottom,
                       ),
@@ -85,101 +87,113 @@ class TodoItemCard extends ConsumerWidget {
           ),
         ],
       ),
-      child: InkWell(
-        onTap: () {
-          context.go('/todo/${todo.id}');
-        },
-        child: Card(
-          elevation: 2,
-          margin: EdgeInsets.zero,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
-            side:
-                todo.priority == true
-                    ? BorderSide(color: Colors.red.shade200, width: 1.5)
-                    : BorderSide.none,
-          ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 4),
-            child: CheckboxListTile(
-              value: todo.isFinished ?? false,
-              onChanged: (value) {
-                HapticFeedback.lightImpact();
-                todoNotifier.cheackTodo(
-                  id: todo.id!,
-                  description: todo.description,
-                  dueDate: todo.dueDate,
-                  isFinished: !value!,
-                  priority: todo.priority,
-                  title: todo.title,
-                );
-              },
-              title: Text(
-                todo.title ?? 'No title',
-                style: TextStyle(
-                  fontSize: 17,
-                  fontWeight:
-                      (todo.isFinished ?? false)
-                          ? FontWeight.normal
-                          : FontWeight.w600,
-                  decoration:
-                      (todo.isFinished ?? false)
-                          ? TextDecoration.lineThrough
-                          : TextDecoration.none,
-                  color:
-                      (todo.isFinished ?? false)
-                          ? Colors.grey
-                          : Colors.grey[800],
+      child: Card(
+        elevation: 2,
+        margin: EdgeInsets.zero,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+          side:
+              todo.priority == true
+                  ? BorderSide(color: Colors.red.shade200, width: 1.5)
+                  : BorderSide.none,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 4),
+          child: Row(
+            children: [
+              // Checkbox terpisah
+              Padding(
+                padding: const EdgeInsets.only(left: 16),
+                child: Checkbox(
+                  value: todo.isFinished ?? false,
+                  onChanged: (value) {
+                    HapticFeedback.lightImpact();
+                    log('Checkbox changed: $value');
+                    todoNotifier.cheackTodo(
+                      id: todo.id ?? 0,
+                      description: todo.description,
+                      dueDate: todo.dueDate,
+                      isFinished: todo.isFinished,
+                      priority: todo.priority,
+                      title: todo.title,
+                    );
+                  },
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                  activeColor: Colors.blue,
                 ),
               ),
-              subtitle: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  if (todo.dueDate != null)
-                    Padding(
-                      padding: const EdgeInsets.only(top: 6),
-                      child: Row(
-                        children: [
-                          Icon(
-                            Icons.calendar_today,
-                            size: 14,
-                            color: Colors.grey[600],
+              // Konten utama
+              Expanded(
+                child: InkWell(
+                  onTap: () => context.push('/todo/${todo.id}', extra: todo),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          todo.title ?? 'No title',
+                          style: TextStyle(
+                            fontSize: 17,
+                            fontWeight:
+                                (todo.isFinished ?? false)
+                                    ? FontWeight.normal
+                                    : FontWeight.w600,
+                            decoration:
+                                (todo.isFinished ?? false)
+                                    ? TextDecoration.lineThrough
+                                    : TextDecoration.none,
+                            color:
+                                (todo.isFinished ?? false)
+                                    ? Colors.grey
+                                    : Colors.grey[800],
                           ),
-                          const SizedBox(width: 4),
-                          Text(
-                            DateFormat('MMM d hh:mm').format(todo.dueDate!),
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: Colors.grey[700],
-                              fontWeight: FontWeight.w500,
+                        ),
+                        if (todo.dueDate != null)
+                          Padding(
+                            padding: const EdgeInsets.only(top: 6),
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.calendar_today,
+                                  size: 14,
+                                  color: Colors.grey[600],
+                                ),
+                                const SizedBox(width: 4),
+                                Text(
+                                  DateFormat(
+                                    'MMM d hh:mm',
+                                  ).format(todo.dueDate!),
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.grey[700],
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                        ],
-                      ),
+                      ],
                     ),
-                ],
+                  ),
+                ),
               ),
-              secondary:
-                  (todo.priority ?? false)
-                      ? Container(
-                        padding: const EdgeInsets.all(4),
-                        decoration: BoxDecoration(
-                          color: Colors.red.shade50,
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: const Icon(
-                          Icons.priority_high,
-                          color: Colors.red,
-                        ),
-                      )
-                      : null,
-              checkboxShape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(4),
-              ),
-              activeColor: Colors.blue,
-              controlAffinity: ListTileControlAffinity.leading,
-              contentPadding: const EdgeInsets.symmetric(horizontal: 16),
-            ),
+              // Priority icon
+              if (todo.priority ?? false)
+                Padding(
+                  padding: const EdgeInsets.only(right: 16),
+                  child: Container(
+                    padding: const EdgeInsets.all(4),
+                    decoration: BoxDecoration(
+                      color: Colors.red.shade50,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: const Icon(Icons.priority_high, color: Colors.red),
+                  ),
+                ),
+            ],
           ),
         ),
       ),

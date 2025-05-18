@@ -56,15 +56,27 @@ class _TodoFormState extends ConsumerState<TodoForm> {
             .addTodo(
               title: _titleController.text,
               description: _descController.text,
-              dueDate: _dueDate,
+              dueDate: _dueDate ?? DateTime.now(),
               priority: _isPriority,
             );
       } else {
+        // Cek dulu apakah todo.id ada
+        if (widget.todo?.id == null) {
+          // Tampilkan pesan error
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Error: ID tidak ditemukan')),
+          );
+          return;
+        }
+
         // Update todo yang sudah ada
         await ref
             .read(todoAsyncProvider.notifier)
             .updateTodo(
-              id: widget.todo!.id!,
+              id:
+                  widget
+                      .todo!
+                      .id!, 
               title: _titleController.text,
               description: _descController.text,
               dueDate: _dueDate,
@@ -84,9 +96,7 @@ class _TodoFormState extends ConsumerState<TodoForm> {
     final picked = await showDatePicker(
       context: context,
       initialDate: _dueDate ?? now,
-      firstDate: now.subtract(
-        const Duration(days: 365),
-      ), // Untuk edit, bisa pilih tanggal lalu
+      firstDate: now,
       lastDate: DateTime(now.year + 1),
     );
 
