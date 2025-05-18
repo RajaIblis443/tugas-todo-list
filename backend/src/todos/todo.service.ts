@@ -96,4 +96,21 @@ export class TodoService {
       createdAt: todo.createdAt,
     }));
   }
+
+  async delete_todo(id: number): Promise<ResponseTodos> {
+    const todos = await this.prismaService.list.delete({
+      where: { id: parseInt(String(id), 10) },
+    });
+
+    return {
+      id: todos.id,
+      title: todos.title,
+      priority: todos.priority,
+      due_date: todos.due_date,
+      description: todos.description,
+      category: todos.category ?? undefined,
+      isFinished: todos.isFinished,
+      createdAt: todos.createdAt,
+    };
+  }
 }

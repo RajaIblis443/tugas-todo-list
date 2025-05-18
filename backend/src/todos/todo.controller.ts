@@ -1,4 +1,14 @@
-import { Body, Controller, Get, HttpCode, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  Param,
+  ParseIntPipe,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { TodoService } from './todo.service';
 import { RequestTodos, ResponseTodos } from 'src/model/todo.model';
 import { WebResponse } from 'src/model/web.model';
@@ -37,6 +47,18 @@ export class TodoController {
     return {
       data: result,
       message: 'berhasil di update',
+    };
+  }
+
+  @Delete(':id')
+  @HttpCode(200)
+  async deleteTodos(
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<WebResponse<ResponseTodos>> {
+    const result = await this.todoService.delete_todo(id);
+    return {
+      data: result,
+      message: 'berhasil di hapus',
     };
   }
 }
