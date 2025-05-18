@@ -5,13 +5,14 @@ import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_app/model/response_todos/datum.dart';
 import 'package:mobile_app/model/response_todos/response_todos.dart';
+import 'package:mobile_app/setings.dart';
 
 class TodoNotifierAsync extends AsyncNotifier<List<Datum>> {
   late final Dio _dio;
 
   @override
   FutureOr<List<Datum>> build() async {
-    final baseUrl = 'http://192.168.0.103:3000/api';
+    final baseUrl = base_url;
 
     _dio = Dio(
       BaseOptions(
