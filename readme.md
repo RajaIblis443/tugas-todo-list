@@ -1,110 +1,78 @@
 # Konfigurasi Todo App dengan MySQL
 
-Untuk mengganti database aplikasi dari PostgreSQL ke MySQL, Anda perlu melakukan perubahan pada sisi backend (NestJS). Aplikasi Flutter tidak perlu diubah karena hanya berkomunikasi dengan API.
+Aplikasi ini dapat dikonfigurasi untuk menggunakan MySQL melalui Prisma ORM. Anda tidak perlu menginstal MySQL secara manual jika sudah memilikinya.
 
-## Langkah-langkah Konfigurasi MySQL
+## Konfigurasi Prisma dengan MySQL
 
-### 1. Instalasi MySQL
+### 1. Perbarui Schema Prisma
 
-```bash
-# Ubuntu/Debian
-sudo apt update
-sudo apt install mysql-server
+Buka file `schema.prisma` di direktori prisma dan ubah provider dari PostgreSQL ke MySQL:
 
-# Windows
-# Download dan install MySQL dari https://dev.mysql.com/downloads/installer/
+```prisma
+// backend/prisma/schema.prisma
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
 ```
 
-### 2. Buat Database
+### 2. Konfigurasi Connection URL
 
-```bash
-# Masuk ke MySQL
-mysql -u root -p
+Edit file `.env` di direktori backend:
 
-# Buat database baru
-CREATE DATABASE todo_list;
-CREATE USER 'todouser'@'localhost' IDENTIFIED BY 'password';
-GRANT ALL PRIVILEGES ON todo_list.* TO 'todouser'@'localhost';
-FLUSH PRIVILEGES;
-EXIT;
+```
+# Format DATABASE_URL untuk MySQL
+DATABASE_URL="mysql://username:password@localhost:3306/nama_database"
 ```
 
-### 3. Konfigurasi NestJS untuk MySQL
-
-#### Instal dependencies MySQL
+### 3. Jalankan Migrasi Prisma
 
 ```bash
 cd backend
-npm install --save @nestjs/typeorm typeorm mysql2
+npx prisma migrate dev --name init
 ```
 
-#### Edit file .env
+Perintah ini akan membuat skema database di MySQL sesuai dengan model yang didefinisikan di `schema.prisma`.
 
-```
-# Ganti DATABASE_URL dengan format koneksi MySQL
-DATABASE_URL="mysql://todouser:password@localhost:3306/todo_list"
-```
+### 4. Generate Prisma Client
 
-#### Perbarui konfigurasi database di NestJS
-
-```typescript
-import { TypeOrmModule } from "@nestjs/typeorm";
-
-@Module({
-  imports: [
-    ConfigModule.forRoot(),
-    TypeOrmModule.forRoot({
-      type: "mysql",
-      host: "localhost",
-      port: 3306,
-      username: "todouser",
-      password: "password",
-      database: "todo_list",
-      entities: [__dirname + "/**/*.entity{.ts,.js}"],
-      synchronize: true, // Hanya gunakan true di development!
-    }),
-    // ...module lainnya
-  ],
-})
-export class AppModule {}
+```bash
+npx prisma generate
 ```
 
-### 4. Jalankan Aplikasi
+## Menjalankan Aplikasi
+
+### Backend (NestJS)
 
 ```bash
 # Jalankan backend dengan host yang dapat diakses dari jaringan
 cd backend
 npm run start:dev -- --host 0.0.0.0
-
-# Di terminal terpisah, jalankan aplikasi mobile
-cd mobile_app
-flutter run
 ```
 
-## Pengaturan IP Address
+Server akan berjalan di `http://localhost:3000` (atau port yang dikonfigurasi di .env)
 
-Pastikan untuk memperbarui `setings.dart` dengan IP address yang benar:
+### Frontend (Flutter)
+
+Sesuaikan IP address di file `setings.dart`:
 
 ```dart
 final base_url = 'http://192.168.x.x:3000/api';
 ```
 
-## Migrasi Data
+> **Catatan:** Ganti `192.168.x.x` dengan alamat IP jaringan komputer Anda. Temukan alamat IP dengan perintah `ipconfig` (Windows) atau `ifconfig` (Linux/Mac).
 
-Jika Anda memiliki data yang perlu dimigrasikan dari PostgreSQL ke MySQL:
-
-1. Export data dari PostgreSQL
+Kemudian jalankan aplikasi Flutter:
 
 ```bash
-pg_dump -U username -d todo_app > todo_backup.sql
+cd mobile_app
+flutter pub get
+flutter run
 ```
 
-2. Konversi sintaks SQL jika diperlukan (ada beberapa perbedaan antara PostgreSQL dan MySQL)
+## Troubleshooting
 
-3. Import ke MySQL
-
-```bash
-mysql -u todouser -p todo_list < todo_backup_converted.sql
-```
-
-Dengan langkah-langkah ini, aplikasi Todo List Anda akan menggunakan MySQL sebagai database backend.
+- **Error koneksi database:** Pastikan kredensial MySQL dan alamat host benar
+- **Error akses ditolak:** Pastikan pengguna MySQL memiliki hak akses yang cukup
+- **Error koneksi API:** Verifikasi alamat IP di `setings.dart` sudah benar
+- **Error saat migrasi:** Cek apakah struktur database kompatibel dengan skema Prisma
