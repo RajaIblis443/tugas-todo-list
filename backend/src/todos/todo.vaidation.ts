@@ -8,6 +8,7 @@ export class TodoValidation {
     description: z.string(),
     category: z.string().optional(),
     isFinished: z.boolean().optional(),
+    userId: z.string(),
   });
 
   static readonly UPDATE_TODO: ZodType = z.object({
@@ -18,6 +19,7 @@ export class TodoValidation {
     description: z.string(),
     category: z.string().optional(),
     isFinished: z.boolean().optional(),
+    userId: z.string(),
   });
 
   static readonly CHECK_TODO: ZodType = z.object({

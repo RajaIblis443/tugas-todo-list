@@ -120,6 +120,15 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
+exports.Prisma.UserScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  email: 'email',
+  password: 'password',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.ListScalarFieldEnum = {
   id: 'id',
   title: 'title',
@@ -128,12 +137,20 @@ exports.Prisma.ListScalarFieldEnum = {
   description: 'description',
   category: 'category',
   isFinished: 'isFinished',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  userId: 'userId'
 };
 
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
+};
+
+exports.Prisma.UserOrderByRelevanceFieldEnum = {
+  id: 'id',
+  name: 'name',
+  email: 'email',
+  password: 'password'
 };
 
 exports.Prisma.NullsOrder = {
@@ -144,11 +161,13 @@ exports.Prisma.NullsOrder = {
 exports.Prisma.ListOrderByRelevanceFieldEnum = {
   title: 'title',
   description: 'description',
-  category: 'category'
+  category: 'category',
+  userId: 'userId'
 };
 
 
 exports.Prisma.ModelName = {
+  User: 'User',
   List: 'List'
 };
 

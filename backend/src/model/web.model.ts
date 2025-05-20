@@ -3,6 +3,7 @@ export class WebResponse<T> {
   data?: T;
   errors?: string;
   paging?: Paging;
+  token?: string;
 }
 
 export class Paging {
