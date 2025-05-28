@@ -107,6 +107,7 @@ export class TodoService {
       category: todo.category ?? undefined,
       isFinished: todo.isFinished,
       createdAt: todo.createdAt,
+      updateAt: todo.updateAt,
       userId: todo.userId,
     }));
   }

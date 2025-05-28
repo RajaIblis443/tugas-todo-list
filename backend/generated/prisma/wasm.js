@@ -138,6 +138,7 @@ exports.Prisma.ListScalarFieldEnum = {
   category: 'category',
   isFinished: 'isFinished',
   createdAt: 'createdAt',
+  updateAt: 'updateAt',
   userId: 'userId'
 };
 

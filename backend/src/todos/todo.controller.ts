@@ -47,7 +47,7 @@ export class TodoController {
   async getTodos(
     @Request() req: JwtAuthRequest,
   ): Promise<WebResponse<ResponseTodos[]>> {
-    const result = await this.todoService.get_todo(req.user.id); // Gunakan userId dari JWT
+    const result = await this.todoService.get_todo(req.user.id);
     return {
       message: 'Berhasil',
       data: result,

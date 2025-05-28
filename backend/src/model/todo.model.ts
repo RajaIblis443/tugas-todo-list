@@ -7,6 +7,7 @@ export class ResponseTodos {
   category?: string;
   isFinished?: boolean;
   createdAt?: Date;
+  updatedAt?: Date;
   userId: string;
 }
 

@@ -1969,6 +1969,7 @@ export namespace Prisma {
     category: string | null
     isFinished: boolean | null
     createdAt: Date | null
+    updateAt: Date | null
     userId: string | null
   }
 
@@ -1981,6 +1982,7 @@ export namespace Prisma {
     category: string | null
     isFinished: boolean | null
     createdAt: Date | null
+    updateAt: Date | null
     userId: string | null
   }
 
@@ -1993,6 +1995,7 @@ export namespace Prisma {
     category: number
     isFinished: number
     createdAt: number
+    updateAt: number
     userId: number
     _all: number
   }
@@ -2015,6 +2018,7 @@ export namespace Prisma {
     category?: true
     isFinished?: true
     createdAt?: true
+    updateAt?: true
     userId?: true
   }
 
@@ -2027,6 +2031,7 @@ export namespace Prisma {
     category?: true
     isFinished?: true
     createdAt?: true
+    updateAt?: true
     userId?: true
   }
 
@@ -2039,6 +2044,7 @@ export namespace Prisma {
     category?: true
     isFinished?: true
     createdAt?: true
+    updateAt?: true
     userId?: true
     _all?: true
   }
@@ -2138,6 +2144,7 @@ export namespace Prisma {
     category: string | null
     isFinished: boolean
     createdAt: Date
+    updateAt: Date
     userId: string
     _count: ListCountAggregateOutputType | null
     _avg: ListAvgAggregateOutputType | null
@@ -2169,6 +2176,7 @@ export namespace Prisma {
     category?: boolean
     isFinished?: boolean
     createdAt?: boolean
+    updateAt?: boolean
     userId?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["list"]>
@@ -2184,10 +2192,11 @@ export namespace Prisma {
     category?: boolean
     isFinished?: boolean
     createdAt?: boolean
+    updateAt?: boolean
     userId?: boolean
   }
 
-  export type ListOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "priority" | "due_date" | "description" | "category" | "isFinished" | "createdAt" | "userId", ExtArgs["result"]["list"]>
+  export type ListOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "priority" | "due_date" | "description" | "category" | "isFinished" | "createdAt" | "updateAt" | "userId", ExtArgs["result"]["list"]>
   export type ListInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
   }
@@ -2206,6 +2215,7 @@ export namespace Prisma {
       category: string | null
       isFinished: boolean
       createdAt: Date
+      updateAt: Date
       userId: string
     }, ExtArgs["result"]["list"]>
     composites: {}
@@ -2585,6 +2595,7 @@ export namespace Prisma {
     readonly category: FieldRef<"List", 'String'>
     readonly isFinished: FieldRef<"List", 'Boolean'>
     readonly createdAt: FieldRef<"List", 'DateTime'>
+    readonly updateAt: FieldRef<"List", 'DateTime'>
     readonly userId: FieldRef<"List", 'String'>
   }
     
@@ -2982,6 +2993,7 @@ export namespace Prisma {
     category: 'category',
     isFinished: 'isFinished',
     createdAt: 'createdAt',
+    updateAt: 'updateAt',
     userId: 'userId'
   };
 
@@ -3140,6 +3152,7 @@ export namespace Prisma {
     category?: StringNullableFilter<"List"> | string | null
     isFinished?: BoolFilter<"List"> | boolean
     createdAt?: DateTimeFilter<"List"> | Date | string
+    updateAt?: DateTimeFilter<"List"> | Date | string
     userId?: StringFilter<"List"> | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
@@ -3153,6 +3166,7 @@ export namespace Prisma {
     category?: SortOrderInput | SortOrder
     isFinished?: SortOrder
     createdAt?: SortOrder
+    updateAt?: SortOrder
     userId?: SortOrder
     user?: UserOrderByWithRelationInput
     _relevance?: ListOrderByRelevanceInput
@@ -3170,6 +3184,7 @@ export namespace Prisma {
     category?: StringNullableFilter<"List"> | string | null
     isFinished?: BoolFilter<"List"> | boolean
     createdAt?: DateTimeFilter<"List"> | Date | string
+    updateAt?: DateTimeFilter<"List"> | Date | string
     userId?: StringFilter<"List"> | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id">
@@ -3183,6 +3198,7 @@ export namespace Prisma {
     category?: SortOrderInput | SortOrder
     isFinished?: SortOrder
     createdAt?: SortOrder
+    updateAt?: SortOrder
     userId?: SortOrder
     _count?: ListCountOrderByAggregateInput
     _avg?: ListAvgOrderByAggregateInput
@@ -3203,6 +3219,7 @@ export namespace Prisma {
     category?: StringNullableWithAggregatesFilter<"List"> | string | null
     isFinished?: BoolWithAggregatesFilter<"List"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"List"> | Date | string
+    updateAt?: DateTimeWithAggregatesFilter<"List"> | Date | string
     userId?: StringWithAggregatesFilter<"List"> | string
   }
 
@@ -3281,6 +3298,7 @@ export namespace Prisma {
     category?: string | null
     isFinished?: boolean
     createdAt?: Date | string
+    updateAt?: Date | string
     user: UserCreateNestedOneWithoutListInput
   }
 
@@ -3293,6 +3311,7 @@ export namespace Prisma {
     category?: string | null
     isFinished?: boolean
     createdAt?: Date | string
+    updateAt?: Date | string
     userId: string
   }
 
@@ -3304,6 +3323,7 @@ export namespace Prisma {
     category?: NullableStringFieldUpdateOperationsInput | string | null
     isFinished?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updateAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutListNestedInput
   }
 
@@ -3316,6 +3336,7 @@ export namespace Prisma {
     category?: NullableStringFieldUpdateOperationsInput | string | null
     isFinished?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updateAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
   }
 
@@ -3328,6 +3349,7 @@ export namespace Prisma {
     category?: string | null
     isFinished?: boolean
     createdAt?: Date | string
+    updateAt?: Date | string
     userId: string
   }
 
@@ -3339,6 +3361,7 @@ export namespace Prisma {
     category?: NullableStringFieldUpdateOperationsInput | string | null
     isFinished?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updateAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ListUncheckedUpdateManyInput = {
@@ -3350,6 +3373,7 @@ export namespace Prisma {
     category?: NullableStringFieldUpdateOperationsInput | string | null
     isFinished?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updateAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
   }
 
@@ -3510,6 +3534,7 @@ export namespace Prisma {
     category?: SortOrder
     isFinished?: SortOrder
     createdAt?: SortOrder
+    updateAt?: SortOrder
     userId?: SortOrder
   }
 
@@ -3526,6 +3551,7 @@ export namespace Prisma {
     category?: SortOrder
     isFinished?: SortOrder
     createdAt?: SortOrder
+    updateAt?: SortOrder
     userId?: SortOrder
   }
 
@@ -3538,6 +3564,7 @@ export namespace Prisma {
     category?: SortOrder
     isFinished?: SortOrder
     createdAt?: SortOrder
+    updateAt?: SortOrder
     userId?: SortOrder
   }
 
@@ -3828,6 +3855,7 @@ export namespace Prisma {
     category?: string | null
     isFinished?: boolean
     createdAt?: Date | string
+    updateAt?: Date | string
   }
 
   export type ListUncheckedCreateWithoutUserInput = {
@@ -3839,6 +3867,7 @@ export namespace Prisma {
     category?: string | null
     isFinished?: boolean
     createdAt?: Date | string
+    updateAt?: Date | string
   }
 
   export type ListCreateOrConnectWithoutUserInput = {
@@ -3879,6 +3908,7 @@ export namespace Prisma {
     category?: StringNullableFilter<"List"> | string | null
     isFinished?: BoolFilter<"List"> | boolean
     createdAt?: DateTimeFilter<"List"> | Date | string
+    updateAt?: DateTimeFilter<"List"> | Date | string
     userId?: StringFilter<"List"> | string
   }
 
@@ -3943,6 +3973,7 @@ export namespace Prisma {
     category?: string | null
     isFinished?: boolean
     createdAt?: Date | string
+    updateAt?: Date | string
   }
 
   export type ListUpdateWithoutUserInput = {
@@ -3953,6 +3984,7 @@ export namespace Prisma {
     category?: NullableStringFieldUpdateOperationsInput | string | null
     isFinished?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updateAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ListUncheckedUpdateWithoutUserInput = {
@@ -3964,6 +3996,7 @@ export namespace Prisma {
     category?: NullableStringFieldUpdateOperationsInput | string | null
     isFinished?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updateAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ListUncheckedUpdateManyWithoutUserInput = {
@@ -3975,6 +4008,7 @@ export namespace Prisma {
     category?: NullableStringFieldUpdateOperationsInput | string | null
     isFinished?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updateAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 

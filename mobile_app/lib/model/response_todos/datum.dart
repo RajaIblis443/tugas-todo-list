@@ -9,7 +9,7 @@ class Datum {
   String? category;
   bool? isFinished;
   DateTime? createdAt;
-
+  
   Datum({
     this.id,
     this.title,

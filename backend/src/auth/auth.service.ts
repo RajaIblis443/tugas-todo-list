@@ -76,7 +76,7 @@ export class AuthService {
     password: string,
   ): Promise<ResponseUser> {
     const existingUser = await this.prisma.user.findUnique({
-      where: { email },
+      where: { email: email },
     });
 
     if (existingUser) {
@@ -96,5 +96,16 @@ export class AuthService {
     const { password: _, ...result } = user;
 
     return result as ResponseUser;
+  }
+
+  async getUserById(id: string): Promise<ResponseUser | null> {
+    const existingUser = await this.prisma.user.findUnique({
+      where: { id: id },
+    });
+
+    if (!existingUser) {
+      throw new UnauthorizedException('User tidak ditemukan');
+    }
+    return existingUser as ResponseUser;
   }
 }

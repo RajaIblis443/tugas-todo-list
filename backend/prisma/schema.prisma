@@ -35,6 +35,7 @@ model List {
   category    String?  @db.VarChar(255)
   isFinished  Boolean  @default(false)
   createdAt   DateTime @default(now()) @db.Timestamp(0)
+  updateAt    DateTime @updatedAt
 
   userId String @db.VarChar(255)
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
