@@ -1,3 +1,5 @@
+---
+
 # Konfigurasi Todo App dengan MySQL
 
 Aplikasi ini dapat dikonfigurasi untuk menggunakan MySQL melalui Prisma ORM. Anda tidak perlu menginstal MySQL secara manual jika sudah memilikinya.
@@ -72,7 +74,17 @@ flutter run
 
 ## Troubleshooting
 
-- **Error koneksi database:** Pastikan kredensial MySQL dan alamat host benar
-- **Error akses ditolak:** Pastikan pengguna MySQL memiliki hak akses yang cukup
-- **Error koneksi API:** Verifikasi alamat IP di `setings.dart` sudah benar
-- **Error saat migrasi:** Cek apakah struktur database kompatibel dengan skema Prisma
+* **Error koneksi database:** Pastikan kredensial MySQL dan alamat host benar
+* **Error akses ditolak:** Pastikan pengguna MySQL memiliki hak akses yang cukup
+* **Error koneksi API:** Verifikasi alamat IP di `setings.dart` sudah benar
+* **Error saat migrasi:** Cek apakah struktur database kompatibel dengan skema Prisma
+
+---
+
+## Lisensi
+
+Dokumen ini merupakan bagian dari proyek Todo App.
+
+© 2025 Bagas. All rights reserved.
+
+---
